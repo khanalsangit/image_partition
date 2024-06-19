@@ -6,27 +6,33 @@ from PIL import Image, ImageFont, ImageDraw
 
 
 def generate_random_string():
-    list=['*MRP Rs. 250/-', '#26/06/23 A 005', '##NET VOL.200ML']
+    list=['*MRP NPR 200', '20 off - NPR 180/-', '4 Nos x 100g=400g', 'SAVE NPR 20 on 4Nos', '#16/06/24 B1']
     characters = random.choice(list).split(" ")
+    # print(characters)
     
-    rand_guess=random.choices([0,1],weights=(0.7,0.3))[0]
-    # print(rand_guess)
+    rand_guess=random.choices([0,1],weights=(0.6,0.4))[0]
     if rand_guess==0:
         guess=random.choices([0,1],weights=(0.7,0.3))[0]
         if guess==0:
             sequence_dum=random.choice(characters)
             sequence=random.choice(sequence_dum)
+            
         else:
             sequence=random.choice(characters)
         
     else:
         choice1=random.choice(characters) 
-        choice2=random.choice(characters) 
+        choice2=random.choice(characters)
+        choice3=random.choice(characters) 
 
-        if choice1 == choice2:
+        if choice1 == choice2 or choice1 == choice3 or choice2 == choice3:
             sequence=choice1
         else:
-            sequence=choice1+' '+choice2
+            rand_gues=random.choices([0,1],weights=(0.8,0.2))[0]
+            if rand_gues==0:
+                sequence=choice1+' '+choice2
+            else:
+                sequence=choice1+' '+choice2+' '+choice3
     return  sequence
 
 
@@ -70,9 +76,10 @@ for a in range(0,10):
     text_path=os.path.join(base_path,ouput_text)
     # print(i)
     cv2.imwrite(text_path+f"/{img_name}_{a}.jpg",img1)
-    u=f"/{img_name}_{a}.txt"
-    with open(text_path+u, 'w') as file:
-        file.write(f'{img_name}_{a}.jpg,"{text}"')
+    # u=f"/{img_name}_{a}.txt"
+    u=f"/{img_name}.txt"
+    with open(text_path+u, 'a') as file:
+        file.write(f'{img_name}_{a}.jpg,"{text}"\n')
     # cv2.imshow("image",img1)
     # cv2.waitKey(0)
     # cv2.destroyAllWindows()
